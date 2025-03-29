@@ -100,6 +100,13 @@ class Scanner{
                     addToken(SLASH);
                 }
                 break;
+            case ' ':
+            case '\r':
+            case '\t':
+                break;
+            case '\n':
+                line++;
+                break;
             case '"': string(); break;
 
             default:
@@ -130,8 +137,9 @@ class Scanner{
             //eat the "."
             advance();
             while(isDigit(peek())) advance();
-            addToken(NUMBER, Double.parseDouble(source.substring(start, current)));
         }
+        //
+        addToken(NUMBER, Double.parseDouble(source.substring(start, current)));
     }
 
     private char peekNext() {
@@ -175,7 +183,7 @@ class Scanner{
         else return source.charAt(current);
     }
     private boolean isDigit(char c) {
-        return c>=0 && c<= 9;
+        return c>='0' && c<= '9';
     }
     private char advance() {
         current++; //moves one forward
