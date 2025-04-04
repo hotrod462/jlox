@@ -21,17 +21,30 @@ class Parser {
     }
 
     private Expr expression() {
-        Expr expr = equality();
+        Expr expr = ternary();
 
         while(match(COMMA)) {
             Token operator = previous();
-            Expr right = equality();
+            Expr right = ternary();
             expr = new Expr.Binary(expr, operator, right);
         }
 
         return expr;
     }
 
+    private Expr ternary(){
+        Expr expr = equality();
+
+        if(match(QUES_MK)) {
+            Token operator1 = previous();
+            Expr thenBranch = equality();
+            consume(COLON, "Expect ':' after 'then' branch of ternary operator.");
+            Token operator2 = previous();
+            Expr elseBranch = ternary();
+            expr = new Expr.Ternary(expr, operator1, thenBranch, operator2, elseBranch);
+        }
+        return expr;
+    }
 
     private Expr equality() {
         Expr expr = comparison();

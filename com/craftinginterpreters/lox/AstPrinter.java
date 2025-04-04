@@ -26,6 +26,9 @@ public class AstPrinter implements Expr.Visitor<String>{
         return paranthesize(expr.operator.lexeme, expr.right);
     }
 
+    publlic String visitTernaryExpr(Expr.Ternary expr) {
+        //TODO
+    }
     private String paranthesize(String name, Expr... exprs) {
         StringBuilder builder = new StringBuilder();
 
@@ -39,6 +42,7 @@ public class AstPrinter implements Expr.Visitor<String>{
 
         return builder.toString();
     }
+
 
     public static void main(String[] args) {
         Expr expression = new Expr.Binary(
