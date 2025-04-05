@@ -19,7 +19,14 @@ public class GenerateAST {
             "Grouping : Expr expression",
             "Literal : Object value",
             "Unary : Token operator, Expr right",
-            "Ternary : Expr condition, Token operator1, Expr thenBranch, Token operator2, Expr elseBranch"
+            "Ternary : Expr condition, Token operator1, Expr thenBranch, Token operator2, Expr elseBranch",
+            "Variable : Token name"
+        ));
+
+        defineAst(outputDir, "Stmt", Arrays.asList(
+            "Expression : Expr expression",
+            "Print : Expr expression",
+            "Var : Token name, Expr initializer"
         ));
     }
 

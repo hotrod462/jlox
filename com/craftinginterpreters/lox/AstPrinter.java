@@ -26,8 +26,12 @@ public class AstPrinter implements Expr.Visitor<String>{
         return paranthesize(expr.operator.lexeme, expr.right);
     }
 
-    publlic String visitTernaryExpr(Expr.Ternary expr) {
-        //TODO
+    public String visitTernaryExpr(Expr.Ternary expr) {
+        return paranthesize( expr.operator1.lexeme + expr.operator2.lexeme, expr.condition, expr.thenBranch, expr.elseBranch);
+    }
+    public String visitVariableExpr(Expr.Variable expr) {
+        if(expr.name == null) return "nil";
+        return expr.name.lexeme;
     }
     private String paranthesize(String name, Expr... exprs) {
         StringBuilder builder = new StringBuilder();
