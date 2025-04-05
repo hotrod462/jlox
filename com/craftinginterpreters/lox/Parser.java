@@ -23,12 +23,31 @@ class Parser {
     }
 
     private Expr expression() {
-        Expr expr = ternary();
+        Expr expr = assignment();
 
         while(match(COMMA)) {
             Token operator = previous();
-            Expr right = ternary();
+            Expr right = assignment();
             expr = new Expr.Binary(expr, operator, right);
+        }
+
+        return expr;
+    }
+
+    //add logic for ternary in assignment
+    private Expr assignment() {
+        Expr expr = ternary();
+
+        if(match(EQUAL)) {
+            Token equals = previous();
+            Expr value = assignment();
+
+            if(expr instanceof Expr.Variable){ 
+                Token name = ((Expr.Variable)expr).name; //only if you find a match, cast 
+                return new Expr.Assign(name, value);
+            }
+
+            error(equals, "Invalid assignment target.");
         }
 
         return expr;
@@ -66,7 +85,7 @@ class Parser {
             initializer = expression();
         }
 
-        consume(SEMICOLON, "Expect ';' after variable declaration");
+        consume(SEMICOLON, "Expect ';' after variable declaration.");
         return new Stmt.Var(name, initializer);
     
     };
@@ -74,7 +93,7 @@ class Parser {
 
     private Stmt expressionStatement() {
         Expr expr = expression();
-        consume(SEMICOLON, "Expect ';' after expression");
+        consume(SEMICOLON, "Expect ';' after expression.");
         return new Stmt.Expression(expr);
     }
 
