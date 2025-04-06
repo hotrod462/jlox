@@ -3,5 +3,6 @@ var b = false;
 
 var c = "ternary assignments";
 c = c + (b ? " dont work :( ": " work :) ");
+2 +3;
 
 print c;

@@ -21,7 +21,16 @@ class Parser {
 
         return statements;
     }
+   private Stmt declaration() {
+        try {
+            if(match(VAR)) return varDeclaration();
 
+            return statement();
+        } catch (ParseError error) {
+            synchronize();
+            return null;
+        }
+    }
     private Expr expression() {
         Expr expr = assignment();
 
@@ -53,16 +62,7 @@ class Parser {
         return expr;
     }
 
-    private Stmt declaration() {
-        try {
-            if(match(VAR)) return varDeclaration();
-
-            return statement();
-        } catch (ParseError error) {
-            synchronize();
-            return null;
-        }
-    }
+ 
 
     private Stmt statement() {
         if(match(PRINT)) return printStatement();

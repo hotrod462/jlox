@@ -6,15 +6,21 @@ import java.util.List;
 class Interpreter implements Expr.Visitor<Object> ,
                                 Stmt.Visitor<Void>{
     private Environment environment = new Environment();
-    void interpret(List<Stmt> statements) {
+    
+    void interpret(List<Stmt> statements, boolean isPrompt) {
         try {
             for(Stmt statement : statements) {
-                execute(statement);
+                if(isPrompt && statement instanceof Stmt.Expression) {
+                    Expr expr = ((Stmt.Expression)statement).expression;
+                    System.out.println(stringify(evaluate(expr)));
+                }
+                else execute(statement);
             }
         } catch(RuntimeError error) {
             Lox.runTimeError(error);
         }
     }
+
     @Override
     public Object visitLiteralExpr(Expr.Literal expr) {
         return expr.value;
