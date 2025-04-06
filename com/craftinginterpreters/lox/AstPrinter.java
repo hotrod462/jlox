@@ -36,6 +36,9 @@ public class AstPrinter implements Expr.Visitor<String>{
     public String visitAssignExpr(Expr.Assign expr) {
         return paranthesize(expr.name + "assign", expr.value);
     }
+    public String visitLogicalExpr(Expr.Logical expr) {
+        return paranthesize(expr.operator.lexeme, expr.left, expr.right);
+    }
     private String paranthesize(String name, Expr... exprs) {
         StringBuilder builder = new StringBuilder();
 
