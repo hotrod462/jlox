@@ -276,9 +276,20 @@ class Interpreter implements Expr.Visitor<Object> ,
     @Override
     public Void visitWhileStmt(Stmt.While stmt) {
         while(isTruthy(evaluate(stmt.condition))) {
+            try{
+
             execute(stmt.body);
-        }
+        } catch(Break breakval){
+                break;
+            }
+        }   
         return null;
+    }
+
+    @Override
+    public Void visitBreakStmt(Stmt.Break stmt) {
+        
+        throw new Break();
     }
 
     @Override

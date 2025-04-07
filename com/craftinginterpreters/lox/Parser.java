@@ -65,6 +65,7 @@ class Parser {
         if(match(IF)) return ifStatement();
         if(match(PRINT)) return printStatement();
         if(match(RETURN)) return returnStatement();
+        if(match(BREAK)) return breakStatement();
         if(match(WHILE)){
             return whileStatement();
         }
@@ -112,6 +113,12 @@ class Parser {
         return body;
     }
 
+    private Stmt breakStatement() {
+        Token keyword = previous();
+
+        consume(SEMICOLON, "Expect ';' after break statement.");
+        return new Stmt.Break(keyword);
+    }
     private Stmt ifStatement() {
         consume(LEFT_PAREN, "Expect '(' after 'if'.");
         Expr condition = expression();
