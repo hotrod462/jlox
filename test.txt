@@ -2,7 +2,22 @@ fun fib(n) {
 if (n <= 1) return n;
 return fib(n - 2) + fib(n - 1);
 }
+
 for (var i = 0; i < 20; i = i + 1) {
 if(i == 10) break;
 print fib(i);
+}
+
+
+var b = 10;
+while(b >= 0) {
+    if(b == 5) break;
+    print b;
+    
+
+    var c = 10;
+    while(c >= 0) {
+        if(c == 5) break;
+        print c;
+    }
 }
